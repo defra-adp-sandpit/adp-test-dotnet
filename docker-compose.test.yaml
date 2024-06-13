@@ -1,0 +1,16 @@
+services:
+  ? adp-test-dotnet
+  : build:
+      target: development
+    image: adp-test-dotnet-development
+    container_name: adp-test-dotnet-test
+    user: root
+    entrypoint: sh -c "cd /home/dotnet && chown -R dotnet:dotnet . && su dotnet -c 'dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./test-output/'"
+    volumes:
+      - ./Adp.Test.Dotnet.sln:/home/dotnet/Adp.Test.Dotnet.sln
+      - ./src/Adp.Test.Dotnet.Core:/home/dotnet/src/Adp.Test.Dotnet.Core
+      - ./test/Adp.Test.Dotnet.Core.Tests:/home/dotnet/test/Adp.Test.Dotnet.Core.Tests
+      - ./src/Adp.Test.Dotnet.Api:/home/dotnet/src/Adp.Test.Dotnet.Api
+      - ./test/Adp.Test.Dotnet.Api.Tests:/home/dotnet/test/Adp.Test.Dotnet.Api.Tests
+      - ./test/Adp.Test.Dotnet.Api.Tests/test-output:/home/dotnet/test/Adp.Test.Dotnet.Api.Tests/test-output
+      - ./test/Adp.Test.Dotnet.Core.Tests/test-output:/home/dotnet/test/Adp.Test.Dotnet.Core.Tests/test-output

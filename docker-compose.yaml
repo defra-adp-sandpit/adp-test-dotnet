@@ -1,0 +1,10 @@
+services:
+  ? adp-test-dotnet
+  : build:
+      context: .
+      target: production
+    image: adp-test-dotnet
+    container_name: adp-test-dotnet
+    environment:
+      APPINSIGHTS_CONNECTIONSTRING: ${APPINSIGHTS_CONNECTIONSTRING}
+      APPINSIGHTS_CLOUDROLE: adp-test-dotnet-local
